@@ -28,7 +28,7 @@ app.add_middleware(LoggingMiddleware)
 class Item(BaseModel):
     name: str
     description: str = None
-    price: float = None
+    price: float
     tax: float = None
 
 @app.get("/")
@@ -40,3 +40,8 @@ async def read_item(item_id:int, q: str =None):
     return {"item_id": item_id, "q": q}
     # item_id : 상품의 번호 -> 경로 매개변수
     # q : 쿼리 매개변수 (기본값 None)
+
+@app.post("/items/")    # post메서드용 응답
+async def create_item(item: Item): # BaseModel은 데이터 모델링을 쉽게 도와주고 유효성검사도 수행
+    # 잘못된 데이터가 들어오면 422 오류코드를 반환
+    return item
